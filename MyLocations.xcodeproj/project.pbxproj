@@ -25,6 +25,7 @@
 		9EF55E9519418F34003DE35A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EF55E9419418F34003DE35A /* CoreLocation.framework */; };
 		9EF55E981943034E003DE35A /* LocationDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EF55E971943034E003DE35A /* LocationDetailsViewController.m */; };
 		9EF55E9B19458469003DE35A /* CategoryPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EF55E9A19458469003DE35A /* CategoryPickerViewController.m */; };
+		9EF55E9E1945A3CB003DE35A /* HudView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EF55E9D1945A3CB003DE35A /* HudView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,8 @@
 		9EF55E971943034E003DE35A /* LocationDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationDetailsViewController.m; sourceTree = "<group>"; };
 		9EF55E9919458469003DE35A /* CategoryPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryPickerViewController.h; sourceTree = "<group>"; };
 		9EF55E9A19458469003DE35A /* CategoryPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryPickerViewController.m; sourceTree = "<group>"; };
+		9EF55E9C1945A3CB003DE35A /* HudView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HudView.h; sourceTree = "<group>"; };
+		9EF55E9D1945A3CB003DE35A /* HudView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HudView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +141,8 @@
 				9EF55E971943034E003DE35A /* LocationDetailsViewController.m */,
 				9EF55E9919458469003DE35A /* CategoryPickerViewController.h */,
 				9EF55E9A19458469003DE35A /* CategoryPickerViewController.m */,
+				9EF55E9C1945A3CB003DE35A /* HudView.h */,
+				9EF55E9D1945A3CB003DE35A /* HudView.m */,
 			);
 			path = MyLocations;
 			sourceTree = "<group>";
@@ -272,6 +277,7 @@
 				9EF55E6D194170AF003DE35A /* AppDelegate.m in Sources */,
 				9EF55E73194170AF003DE35A /* CurrentLocationViewController.m in Sources */,
 				9EF55E69194170AF003DE35A /* main.m in Sources */,
+				9EF55E9E1945A3CB003DE35A /* HudView.m in Sources */,
 				9EF55E9B19458469003DE35A /* CategoryPickerViewController.m in Sources */,
 				9EF55E981943034E003DE35A /* LocationDetailsViewController.m in Sources */,
 			);
