@@ -8,6 +8,9 @@
 
 #import "AppDelegate.h"
 #import "CurrentLocationViewController.h"
+#import "LocationsViewController.h"
+
+NSString * const ManagedObjectContextSaveDidFailNotification = @"ManagedObjectContextSaveDidFailNotification";
 
 @interface AppDelegate ()
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
@@ -28,7 +31,34 @@
     
     currentLocationViewController.managedObjectContext = self.managedObjectContext;
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fatalCoreDataError:) name:ManagedObjectContextSaveDidFailNotification object:nil];
+    
+    UINavigationController *navigationController = (UINavigationController *)tabBarController.viewControllers[1];
+    
+    LocationsViewController *locationsViewController = (LocationsViewController *)navigationController.viewControllers[0];
+    
+    locationsViewController.managedObjectContext = self.managedObjectContext;
+    
     return YES;
+}
+
+- (void)fatalCoreDataError:(NSNotification *)notification
+{
+    UIAlertView *alertView = [[UIAlertView alloc]
+                              initWithTitle:NSLocalizedString(@"Internal Error", nil)
+                              message:NSLocalizedString(@"There was a fatal error in the app and it cannot continue.\n\nPress Ok to terminate the app. Sorry for the inconvenience", nil)
+                              delegate:self
+                              cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                              otherButtonTitles:nil, nil];
+    
+    [alertView show];
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    abort();
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application

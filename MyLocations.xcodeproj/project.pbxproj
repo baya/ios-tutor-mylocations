@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9E7BBAC9194858D2005856DA /* LocationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E7BBAC8194858D2005856DA /* LocationsViewController.m */; };
+		9E7BBACC19485E8C005856DA /* LocationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E7BBACB19485E8C005856DA /* LocationCell.m */; };
 		9EF55E5D194170AF003DE35A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EF55E5C194170AF003DE35A /* Foundation.framework */; };
 		9EF55E5F194170AF003DE35A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EF55E5E194170AF003DE35A /* CoreGraphics.framework */; };
 		9EF55E61194170AF003DE35A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EF55E60194170AF003DE35A /* UIKit.framework */; };
@@ -15,7 +17,6 @@
 		9EF55E6D194170AF003DE35A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EF55E6C194170AF003DE35A /* AppDelegate.m */; };
 		9EF55E70194170AF003DE35A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9EF55E6E194170AF003DE35A /* Main.storyboard */; };
 		9EF55E73194170AF003DE35A /* CurrentLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EF55E72194170AF003DE35A /* CurrentLocationViewController.m */; };
-		9EF55E76194170AF003DE35A /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EF55E75194170AF003DE35A /* SecondViewController.m */; };
 		9EF55E78194170AF003DE35A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9EF55E77194170AF003DE35A /* Images.xcassets */; };
 		9EF55E7F194170AF003DE35A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EF55E7E194170AF003DE35A /* XCTest.framework */; };
 		9EF55E80194170AF003DE35A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EF55E5C194170AF003DE35A /* Foundation.framework */; };
@@ -41,6 +42,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9E7BBAC7194858D2005856DA /* LocationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationsViewController.h; sourceTree = "<group>"; };
+		9E7BBAC8194858D2005856DA /* LocationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationsViewController.m; sourceTree = "<group>"; };
+		9E7BBACA19485E8C005856DA /* LocationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationCell.h; sourceTree = "<group>"; };
+		9E7BBACB19485E8C005856DA /* LocationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationCell.m; sourceTree = "<group>"; };
 		9EF55E59194170AF003DE35A /* MyLocations.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyLocations.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9EF55E5C194170AF003DE35A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9EF55E5E194170AF003DE35A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -54,8 +59,6 @@
 		9EF55E6F194170AF003DE35A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9EF55E71194170AF003DE35A /* CurrentLocationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CurrentLocationViewController.h; sourceTree = "<group>"; };
 		9EF55E72194170AF003DE35A /* CurrentLocationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CurrentLocationViewController.m; sourceTree = "<group>"; };
-		9EF55E74194170AF003DE35A /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
-		9EF55E75194170AF003DE35A /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
 		9EF55E77194170AF003DE35A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		9EF55E7D194170AF003DE35A /* MyLocationsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyLocationsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9EF55E7E194170AF003DE35A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -138,8 +141,6 @@
 				9EF55E6E194170AF003DE35A /* Main.storyboard */,
 				9EF55E71194170AF003DE35A /* CurrentLocationViewController.h */,
 				9EF55E72194170AF003DE35A /* CurrentLocationViewController.m */,
-				9EF55E74194170AF003DE35A /* SecondViewController.h */,
-				9EF55E75194170AF003DE35A /* SecondViewController.m */,
 				9EF55E77194170AF003DE35A /* Images.xcassets */,
 				9EF55E63194170AF003DE35A /* Supporting Files */,
 				9EF55E961943034E003DE35A /* LocationDetailsViewController.h */,
@@ -151,6 +152,10 @@
 				9EF55E9F19469F2E003DE35A /* DataModel.xcdatamodeld */,
 				9EF55EA21946A403003DE35A /* Location.h */,
 				9EF55EA31946A403003DE35A /* Location.m */,
+				9E7BBAC7194858D2005856DA /* LocationsViewController.h */,
+				9E7BBAC8194858D2005856DA /* LocationsViewController.m */,
+				9E7BBACA19485E8C005856DA /* LocationCell.h */,
+				9E7BBACB19485E8C005856DA /* LocationCell.m */,
 			);
 			path = MyLocations;
 			sourceTree = "<group>";
@@ -281,9 +286,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9EF55E76194170AF003DE35A /* SecondViewController.m in Sources */,
 				9EF55EA119469F2E003DE35A /* DataModel.xcdatamodeld in Sources */,
 				9EF55E6D194170AF003DE35A /* AppDelegate.m in Sources */,
+				9E7BBACC19485E8C005856DA /* LocationCell.m in Sources */,
+				9E7BBAC9194858D2005856DA /* LocationsViewController.m in Sources */,
 				9EF55E73194170AF003DE35A /* CurrentLocationViewController.m in Sources */,
 				9EF55EA41946A403003DE35A /* Location.m in Sources */,
 				9EF55E69194170AF003DE35A /* main.m in Sources */,
@@ -494,6 +500,7 @@
 				9EF55E90194170AF003DE35A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9EF55E91194170AF003DE35A /* Build configuration list for PBXNativeTarget "MyLocationsTests" */ = {
 			isa = XCConfigurationList;
@@ -502,6 +509,7 @@
 				9EF55E93194170AF003DE35A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
