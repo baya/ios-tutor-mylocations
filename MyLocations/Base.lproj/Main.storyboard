@@ -84,7 +84,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qh2-T1-AhA" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-27" y="-608"/>
+            <point key="canvasLocation" x="195" y="-586"/>
         </scene>
         <!--Location Details View Controller - Tag Location-->
         <scene sceneID="i9O-TH-ToU">
@@ -294,7 +294,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tlb-Zm-bAr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="771" y="-608"/>
+            <point key="canvasLocation" x="1373" y="-344"/>
         </scene>
         <!--Category Picker View Controller-->
         <scene sceneID="Oc3-4i-Eu5">
@@ -336,7 +336,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uxr-Dl-7co" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="PJc-LR-y4c" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1177" y="-608"/>
+            <point key="canvasLocation" x="1779" y="-344"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Vex-rW-GRa">
@@ -373,7 +373,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jYe-fa-J7r" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="367" y="-608"/>
+            <point key="canvasLocation" x="969" y="-344"/>
         </scene>
         <!--Locations View Controller - Locations-->
         <scene sceneID="CNw-GU-ffF">
@@ -410,6 +410,7 @@
                                 <connections>
                                     <outlet property="addressLabel" destination="bio-Jk-rqj" id="3QA-6a-pKb"/>
                                     <outlet property="descriptionLabel" destination="mBV-Yq-XzK" id="4A2-9A-67Q"/>
+                                    <segue destination="D0p-ee-4wf" kind="modal" identifier="EditLocation" id="q35-Ud-fGz"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -449,4 +450,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="egQ-mV-xlq"/>
+    </inferredMetricsTieBreakers>
 </document>

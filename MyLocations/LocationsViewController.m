@@ -9,6 +9,7 @@
 #import "LocationsViewController.h"
 #import "Location.h"
 #import "LocationCell.h"
+#import "LocationDetailsViewController.h"
 
 @interface LocationsViewController ()
 
@@ -142,15 +143,23 @@
 }
 */
 
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if ([segue.identifier isEqualToString:@"EditLocation"]) {
+        UINavigationController *navigationController = segue.destinationViewController;
+        
+        LocationDetailsViewController *controller = (LocationDetailsViewController *) navigationController.topViewController;
+        
+        controller.managedObjectContext = self.managedObjectContext;
+        
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+        
+        Location *location = _locations[indexPath.row];
+        controller.locationToEdit = location;
+    }
 }
-*/
 
 @end
