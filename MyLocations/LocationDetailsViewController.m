@@ -23,6 +23,8 @@ UIActionSheetDelegate>
 @property (nonatomic, weak) IBOutlet UILabel *longitudeLabel;
 @property (nonatomic, weak) IBOutlet UILabel *addressLabel;
 @property (nonatomic, weak) IBOutlet UILabel *dateLabel;
+@property (nonatomic, weak) IBOutlet UIImageView *imageView;
+@property (nonatomic, weak) IBOutlet UILabel *photoLabel;
 
 @end
 
@@ -31,6 +33,10 @@ UIActionSheetDelegate>
     NSString *_descriptionText;
     NSString *_categoryName;
     NSDate *_date;
+    UIImage *_image;
+    UIActionSheet *_actionSheet;
+    UIImagePickerController *_imagePicker;
+    
 }
 
 - (IBAction)done:(id)sender
@@ -87,10 +93,35 @@ UIActionSheetDelegate>
         _descriptionText = @"";
         _categoryName = @"No Category";
         _date = [NSDate date];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(applicationDidEnterBackground)
+                                                     name:UIApplicationDidEnterBackgroundNotification object:nil];
     }
-    
     return self;
 }
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)applicationDidEnterBackground
+{
+    NSLog(@"***%@", @"application enter bg:");
+    if (_imagePicker != nil) {
+        [self dismissViewControllerAnimated:NO completion:nil];
+        _imagePicker = nil;
+    }
+    
+    if (_actionSheet != nil) {
+        [_actionSheet dismissWithClickedButtonIndex: _actionSheet.cancelButtonIndex animated:NO];
+        _actionSheet = nil;
+    }
+    
+    [self.descriptionTextView resignFirstResponder];
+}
+
 
 - (void)viewDidLoad
 {
@@ -114,10 +145,20 @@ UIActionSheetDelegate>
     
     self.dateLabel.text = [self formatDate:_date];
     
+    self.imageView.hidden = YES;
+    
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard:)];
     
     gestureRecognizer.cancelsTouchesInView = NO;
     [self.tableView addGestureRecognizer:gestureRecognizer];
+}
+
+- (void)showImage:(UIImage *)image
+{
+    self.imageView.image = image;
+    self.imageView.hidden = NO;
+    self.imageView.frame = CGRectMake(10, 10, 260, 260);
+    self.photoLabel.hidden = YES;
 }
 
 - (void)setLocationToEdit:(Location *)newLocationToEdit
@@ -277,6 +318,12 @@ UIActionSheetDelegate>
 {
     if (indexPath.section == 0 && indexPath.row == 0) {
         return 88;
+    } else if (indexPath.section == 1){
+        if (self.imageView.hidden) {
+            return 44;
+        } else {
+            return 280;
+        }
     } else if (indexPath.section == 2 && indexPath.row == 2){
         CGRect rect = CGRectMake(100, 10, 205, 10000);
         self.addressLabel.frame = rect;
@@ -319,34 +366,35 @@ UIActionSheetDelegate>
     if (indexPath.section == 0 && indexPath.row == 0) {
         [self.descriptionTextView becomeFirstResponder];
     } else if (indexPath.section == 1 && indexPath.row == 0){
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
         [self showPhotoMenu];
     }
 }
 
 - (void)takePhoto
 {
-    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-    imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    _imagePicker = [[UIImagePickerController alloc] init];
+    _imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
     
-    imagePicker.delegate = self;
-    imagePicker.allowsEditing = YES;
-    [self presentViewController:imagePicker animated:YES completion:nil];
+    _imagePicker.delegate = self;
+    _imagePicker.allowsEditing = YES;
+    [self presentViewController:_imagePicker animated:YES completion:nil];
 }
 
 - (void)choosePhotoFromLibrary
 {
-    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+    _imagePicker = [[UIImagePickerController alloc] init];
     
-    imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    imagePicker.delegate = self;
-    imagePicker.allowsEditing = YES;
-    [self presentViewController:imagePicker animated:YES completion:nil];
+    _imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    _imagePicker.delegate = self;
+    _imagePicker.allowsEditing = YES;
+    [self presentViewController:_imagePicker animated:YES completion:nil];
 }
 
 - (void)showPhotoMenu
 {
     if (YES || [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        UIActionSheet *actionSheet = [[UIActionSheet alloc]
+        _actionSheet = [[UIActionSheet alloc]
                                       initWithTitle:nil
                                       delegate:self
                                       cancelButtonTitle:@"Cancel"
@@ -354,7 +402,7 @@ UIActionSheetDelegate>
                                       otherButtonTitles:@"Take Photo", @"Choose From Libary",
                                       nil];
         
-        [actionSheet showInView:self.view];
+        [_actionSheet showInView:self.view];
     } else {
         [self choosePhotoFromLibrary];
     }
@@ -364,12 +412,38 @@ UIActionSheetDelegate>
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
+    _image = info[UIImagePickerControllerEditedImage];
+    
+    [self showImage:_image];
+    [self.tableView reloadData];
+    
     [self dismissViewControllerAnimated:YES completion:nil];
+    
+    _imagePicker = nil;
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+    _imagePicker = nil;
 }
+
+# pragma mark - UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        [self takePhoto];
+    } else if (buttonIndex == 1){
+        [self choosePhotoFromLibrary];
+    }
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    _actionSheet = nil;
+}
+
+
 
 @end
