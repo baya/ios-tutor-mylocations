@@ -36,7 +36,6 @@ UIActionSheetDelegate>
     UIImage *_image;
     UIActionSheet *_actionSheet;
     UIImagePickerController *_imagePicker;
-    
 }
 
 - (IBAction)done:(id)sender
@@ -50,6 +49,7 @@ UIActionSheetDelegate>
     } else {
         hudView.text = @"Tagged";
         location = [NSEntityDescription insertNewObjectForEntityForName:@"Location" inManagedObjectContext:self.managedObjectContext];
+        location.photoId = @-1;
     }
     
     location.locationDescription = _descriptionText;
@@ -58,6 +58,18 @@ UIActionSheetDelegate>
     location.longitude = @(self.coordinate.longitude);
     location.date = _date;
     location.placemark = self.placemark;
+    
+    if (_image != nil) {
+        if (![location hasPhoto]) {
+            location.photoId = @([Location nextPhotoId]);
+        }
+        
+        NSData *data = UIImageJPEGRepresentation(_image, 0.5);
+        NSError *error;
+        if (![data writeToFile:[location photoPath] options:NSDataWritingAtomic error:&error]) {
+            NSLog(@"Error writing file: %@", error);
+        }
+    }
     
     NSError *error;
     if (![self.managedObjectContext save:&error]) {
@@ -127,8 +139,20 @@ UIActionSheetDelegate>
 {
     [super viewDidLoad];
     
+    UIImage *existingImage;
     if (self.locationToEdit != nil) {
         self.title = @"Edit Location";
+        
+        if ([self.locationToEdit hasPhoto]) {
+            existingImage = [self.locationToEdit photoImage];
+            if (existingImage != nil) {
+                [self showImage:existingImage];
+            }
+        }
+    }
+    
+    if (existingImage == nil) {
+        self.imageView.hidden = YES;
     }
     
     self.descriptionTextView.text = _descriptionText;
@@ -145,8 +169,6 @@ UIActionSheetDelegate>
     
     self.dateLabel.text = [self formatDate:_date];
     
-    self.imageView.hidden = YES;
-    
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard:)];
     
     gestureRecognizer.cancelsTouchesInView = NO;
@@ -155,9 +177,9 @@ UIActionSheetDelegate>
 
 - (void)showImage:(UIImage *)image
 {
+    self.imageView.frame = CGRectMake(10, 10, 260, 260);
     self.imageView.image = image;
     self.imageView.hidden = NO;
-    self.imageView.frame = CGRectMake(10, 10, 260, 260);
     self.photoLabel.hidden = YES;
 }
 
@@ -274,18 +296,6 @@ UIActionSheetDelegate>
 }
 */
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
 
 /*
 // Override to support rearranging the table view.
@@ -443,7 +453,6 @@ UIActionSheetDelegate>
 {
     _actionSheet = nil;
 }
-
 
 
 @end
