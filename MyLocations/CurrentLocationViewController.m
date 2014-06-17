@@ -8,8 +8,9 @@
 
 #import "CurrentLocationViewController.h"
 #import "LocationDetailsViewController.h"
+#import "NSMutableString+AddText.h"
 
-@interface CurrentLocationViewController ()
+@interface CurrentLocationViewController () <UITabBarControllerDelegate>
 
 @end
 
@@ -40,6 +41,8 @@
     [super viewDidLoad];
     [self updateLabels];
     [self configureGetButton];
+    self.tabBarController.delegate = self;
+    self.tabBarController.tabBar.translucent = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -199,8 +202,28 @@
 
 - (NSString *)stringFromPlacemark:(CLPlacemark *)thePlacemark
 {
-    return [NSString stringWithFormat:@"%@ %@\n%@ %@ %@", thePlacemark.subThoroughfare, thePlacemark.thoroughfare, thePlacemark.locality, thePlacemark.administrativeArea, thePlacemark.postalCode];
+    NSMutableString *line1 = [NSMutableString stringWithCapacity:100];
+    
+    [line1 addText:thePlacemark.subThoroughfare withSeparator:@""];
+    [line1 addText:thePlacemark.thoroughfare withSeparator:@" "];
+    
+    NSMutableString *line2 = [NSMutableString stringWithCapacity:100];
+    
+    [line2 addText:thePlacemark.locality withSeparator:@""];
+    [line2 addText:thePlacemark.administrativeArea withSeparator:@" "];
+    [line2 addText:thePlacemark.postalCode withSeparator:@" "];
+    
+    if ([line1 length] == 0) {
+        [line2 appendString:@"\n "];
+        return line2;
+    } else {
+        [line1 appendString:@"\n"];
+        [line1 appendString:line2];
+        return line1;
+    }
+    
 }
+
 
 - (void)updateLabels
 {
@@ -253,6 +276,15 @@
     } else {
         [self.getButton setTitle:@"Get My Location" forState:UIControlStateNormal];
     }
+}
+
+#pragma mark - UITabBarControllerDelegate
+
+- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
+{
+    tabBarController.tabBar.translucent = (viewController != self);
+    
+    return YES;
 }
 
 @end

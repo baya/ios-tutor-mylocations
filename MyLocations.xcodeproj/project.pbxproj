@@ -12,6 +12,9 @@
 		9E7BBACE19498AAC005856DA /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E7BBACD19498AAC005856DA /* MapKit.framework */; };
 		9E7BBAD119498BE9005856DA /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E7BBAD019498BE9005856DA /* MapViewController.m */; };
 		9EA18191194E964700E4F8B6 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EA18190194E964700E4F8B6 /* UIImage+Resize.m */; };
+		9EA18194194ED0A700E4F8B6 /* NSMutableString+AddText.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EA18193194ED0A700E4F8B6 /* NSMutableString+AddText.m */; };
+		9EA18197194EF16700E4F8B6 /* MyTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EA18196194EF16700E4F8B6 /* MyTabBarController.m */; };
+		9EA1819A194EF30A00E4F8B6 /* MyNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EA18199194EF30A00E4F8B6 /* MyNavigationController.m */; };
 		9EF55E5D194170AF003DE35A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EF55E5C194170AF003DE35A /* Foundation.framework */; };
 		9EF55E5F194170AF003DE35A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EF55E5E194170AF003DE35A /* CoreGraphics.framework */; };
 		9EF55E61194170AF003DE35A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EF55E60194170AF003DE35A /* UIKit.framework */; };
@@ -54,6 +57,12 @@
 		9E7BBAD019498BE9005856DA /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		9EA1818F194E964700E4F8B6 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
 		9EA18190194E964700E4F8B6 /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
+		9EA18192194ED0A700E4F8B6 /* NSMutableString+AddText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableString+AddText.h"; sourceTree = "<group>"; };
+		9EA18193194ED0A700E4F8B6 /* NSMutableString+AddText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableString+AddText.m"; sourceTree = "<group>"; };
+		9EA18195194EF16700E4F8B6 /* MyTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyTabBarController.h; sourceTree = "<group>"; };
+		9EA18196194EF16700E4F8B6 /* MyTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyTabBarController.m; sourceTree = "<group>"; };
+		9EA18198194EF30A00E4F8B6 /* MyNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyNavigationController.h; sourceTree = "<group>"; };
+		9EA18199194EF30A00E4F8B6 /* MyNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyNavigationController.m; sourceTree = "<group>"; };
 		9EF55E59194170AF003DE35A /* MyLocations.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyLocations.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9EF55E5C194170AF003DE35A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9EF55E5E194170AF003DE35A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -170,6 +179,12 @@
 				9E7BBAD019498BE9005856DA /* MapViewController.m */,
 				9EA1818F194E964700E4F8B6 /* UIImage+Resize.h */,
 				9EA18190194E964700E4F8B6 /* UIImage+Resize.m */,
+				9EA18192194ED0A700E4F8B6 /* NSMutableString+AddText.h */,
+				9EA18193194ED0A700E4F8B6 /* NSMutableString+AddText.m */,
+				9EA18195194EF16700E4F8B6 /* MyTabBarController.h */,
+				9EA18196194EF16700E4F8B6 /* MyTabBarController.m */,
+				9EA18198194EF30A00E4F8B6 /* MyNavigationController.h */,
+				9EA18199194EF30A00E4F8B6 /* MyNavigationController.m */,
 			);
 			path = MyLocations;
 			sourceTree = "<group>";
@@ -305,12 +320,15 @@
 				9E7BBACC19485E8C005856DA /* LocationCell.m in Sources */,
 				9E7BBAC9194858D2005856DA /* LocationsViewController.m in Sources */,
 				9EF55E73194170AF003DE35A /* CurrentLocationViewController.m in Sources */,
+				9EA18197194EF16700E4F8B6 /* MyTabBarController.m in Sources */,
 				9EA18191194E964700E4F8B6 /* UIImage+Resize.m in Sources */,
 				9EF55EA41946A403003DE35A /* Location.m in Sources */,
 				9EF55E69194170AF003DE35A /* main.m in Sources */,
+				9EA1819A194EF30A00E4F8B6 /* MyNavigationController.m in Sources */,
 				9EF55E9E1945A3CB003DE35A /* HudView.m in Sources */,
 				9EF55E9B19458469003DE35A /* CategoryPickerViewController.m in Sources */,
 				9EF55E981943034E003DE35A /* LocationDetailsViewController.m in Sources */,
+				9EA18194194ED0A700E4F8B6 /* NSMutableString+AddText.m in Sources */,
 				9E7BBAD119498BE9005856DA /* MapViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

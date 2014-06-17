@@ -11,6 +11,7 @@
 #import "LocationCell.h"
 #import "LocationDetailsViewController.h"
 #import "UIImage+Resize.h"
+#import "NSMutableString+AddText.h"
 
 @interface LocationsViewController () <NSFetchedResultsControllerDelegate>
 
@@ -66,6 +67,8 @@
     [super viewDidLoad];
     [NSFetchedResultsController deleteCacheWithName:@"Locations"];
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.tableView.backgroundColor = [UIColor blackColor];
+    self.tableView.separatorColor = [UIColor colorWithWhite:1.0f alpha:0.2f];
     [self performFetch];
 }
 
@@ -128,12 +131,12 @@
     
     if (location.placemark != nil) {
         UILabel *addressLabel = (UILabel *)[cell viewWithTag:101];
-        addressLabel.text = [NSString stringWithFormat:@"%@ %@, %@",
-                             location.placemark.subThoroughfare,
-                             location.placemark.thoroughfare,
-                             location.placemark.locality
-                             ];
-
+        NSMutableString *string = [NSMutableString stringWithCapacity:100];
+        
+        [string addText:location.placemark.subThoroughfare withSeparator:@""];
+        [string addText:location.placemark.thoroughfare withSeparator:@" "];
+        [string addText:location.placemark.locality withSeparator:@", "];
+        addressLabel.text = string;
     } else {
         locationCell.addressLabel.text = [NSString stringWithFormat:@"Lat: %.8f, Long: %.8f",
                                           [location.latitude doubleValue],
@@ -149,45 +152,17 @@
         }
     }
     locationCell.photoImageView.image = image;
+    locationCell.backgroundColor = [UIColor blackColor];
+    locationCell.descriptionLabel.textColor = [UIColor whiteColor];
+    locationCell.descriptionLabel.highlightedTextColor = locationCell.descriptionLabel.textColor;
+    locationCell.addressLabel.textColor = [UIColor colorWithWhite:1.0f alpha:0.4f];
+    locationCell.addressLabel.highlightedTextColor = locationCell.addressLabel.textColor;
+    
+    UIView *selectionView = [[UIView alloc] initWithFrame:CGRectZero];
+    selectionView.backgroundColor = [UIColor colorWithWhite:1.0f alpha:0.2f];
+    locationCell.selectedBackgroundView = selectionView;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 #pragma mark - Navigation
 
@@ -290,6 +265,27 @@
             return;
         }
     }
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.0f, tableView.sectionHeaderHeight - 14.0f, 300.0f, 14.0f)];
+    label.font = [UIFont boldSystemFontOfSize:11.0f];
+    label.text = [tableView.dataSource tableView:tableView titleForHeaderInSection:section];
+    
+    label.textColor = [UIColor colorWithWhite:1.0f alpha:0.4f];
+    label.backgroundColor = [UIColor clearColor];
+    
+    UIView *separator = [[UIView alloc] initWithFrame:CGRectMake(15.0f, tableView.sectionHeaderHeight - 0.5f, tableView.bounds.size.width - 15.0f, 0.5f)];
+    separator.backgroundColor = tableView.separatorColor;
+    
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, tableView.bounds.size.width, tableView.sectionHeaderHeight)];
+    view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.85f];
+    
+    [view addSubview:label];
+    [view addSubview:separator];
+    
+    return view;
 }
 
 - (void)dealloc
