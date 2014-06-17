@@ -9,6 +9,7 @@
 #import "CurrentLocationViewController.h"
 #import "LocationDetailsViewController.h"
 #import "NSMutableString+AddText.h"
+#import <AudioToolbox/AudioServices.h>
 
 @interface CurrentLocationViewController () <UITabBarControllerDelegate>
 
@@ -24,6 +25,10 @@
     CLPlacemark *_placemark;
     BOOL _performingReverseGeocoding;
     NSError *_lastGeocodingError;
+    UIButton *_logoButton;
+    BOOL _logoVisible;
+    UIActivityIndicatorView *_spinner;
+    SystemSoundID _soundID;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -39,10 +44,68 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self updateLabels];
-    [self configureGetButton];
     self.tabBarController.delegate = self;
     self.tabBarController.tabBar.translucent = NO;
+    [self loadSoundEffect];
+}
+
+- (void)hideLogoView
+{
+    
+    if (!_logoVisible) {
+        return;
+    }
+    
+    _logoVisible = NO;
+    self.containerView.hidden = NO;
+    
+    self.containerView.center = CGPointMake(self.view.bounds.size.width * 2.0f, 40.0f + self.containerView.bounds.size.height / 2.0f);
+    
+    CABasicAnimation *panelMover = [CABasicAnimation animationWithKeyPath:@"position"];
+    panelMover.removedOnCompletion = NO;
+    panelMover.fillMode = kCAFillModeForwards;
+    panelMover.duration = 0.6;
+    panelMover.fromValue = [NSValue valueWithCGPoint:self.containerView.center];
+    panelMover.toValue = [NSValue valueWithCGPoint:CGPointMake(160.0f, self.containerView.center.y)];
+    panelMover.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    panelMover.delegate = self;
+    [self.containerView.layer addAnimation:panelMover forKey:@"pannelMover"];
+    
+    CABasicAnimation *logoMover = [CABasicAnimation animationWithKeyPath:@"position"];
+    logoMover.removedOnCompletion = NO;
+    logoMover.fillMode = kCAFillModeForwards;
+    logoMover.duration = 0.5;
+    logoMover.fromValue = [NSValue valueWithCGPoint:_logoButton.center];
+    logoMover.toValue = [NSValue valueWithCGPoint:CGPointMake(-160.0f, _logoButton.center.y)];
+    logoMover.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+    [_logoButton.layer addAnimation:logoMover forKey:@"logoMover"];
+    
+    CABasicAnimation *logoRotator = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    
+    logoRotator.removedOnCompletion = NO;
+    logoRotator.fillMode = kCAFillModeForwards;
+    logoRotator.duration = 0.5;
+    logoRotator.fromValue = @0.0f;
+    logoRotator.toValue = @(-2.0f * M_PI);
+    logoRotator.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+    [_logoButton.layer addAnimation:logoRotator forKey:@"logoRotator"];
+}
+
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+{
+    [self.containerView.layer removeAllAnimations];
+    self.containerView.center = CGPointMake(self.view.bounds.size.width / 2.0f, 40.0f + self.containerView.bounds.size.height / 2.0f);
+    
+    [_logoButton.layer removeAllAnimations];
+    [_logoButton removeFromSuperview];
+    _logoButton = nil;
+}
+
+- (void)viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    [self updateLabels];
+    [self configureGetButton];
 }
 
 - (void)didReceiveMemoryWarning
@@ -53,6 +116,10 @@
 
 - (IBAction)getLocation:(id)sender
 {
+    if (_logoVisible) {
+        [self hideLogoView];
+    }
+    
     if (_updatingLocation) {
         [self stopLocationManager];
     } else {
@@ -143,6 +210,10 @@
             
             _lastGeocodingError = error;
             if (error == nil && [placemarks count] > 0) {
+                if (_placemark == nil) {
+                    NSLog(@"First TIME!");
+                    [self playSoundEffect];
+                }
                 _placemark = [placemarks lastObject];
             } else {
                 _placemark = nil;
@@ -232,6 +303,8 @@
         self.longitudeLabel.text = [NSString stringWithFormat:@"%.8f", _location.coordinate.longitude];
         self.tagButton.hidden = NO;
         self.messageLabel.text = @"";
+        self.latitudeTextLabel.hidden = NO;
+        self.longitudeTextLabel.hidden = NO;
         
         if (_placemark != nil) {
             self.addressLabel.text = [self stringFromPlacemark: _placemark];
@@ -252,7 +325,8 @@
         if (_lastLocationError != nil) {
             if ([_lastLocationError.domain isEqualToString:kCLErrorDomain] && _lastLocationError.code == kCLErrorDenied) {
                 
-                statusMessage = @"Location Services Disabled";
+                statusMessage = @"";
+                [self showLogoView];
                 
             } else {
                 statusMessage = @"Error Getting Location";
@@ -263,9 +337,12 @@
             statusMessage = @"Searching...";
         } else {
             statusMessage = @"Press the Button to Start";
+            [self showLogoView];
         }
         
         self.messageLabel.text = statusMessage;
+        self.latitudeTextLabel.hidden = YES;
+        self.longitudeTextLabel.hidden = YES;
     }
 }
 
@@ -273,8 +350,18 @@
 {
     if (_updatingLocation) {
         [self.getButton setTitle:@"Stop" forState:UIControlStateNormal];
+        
+        if (_spinner == nil) {
+            _spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+            _spinner.center = CGPointMake(self.messageLabel.center.x, self.messageLabel.center.y + _spinner.bounds.size.height / 2.0f + 15.0f);
+            [_spinner startAnimating];
+            [self.containerView addSubview:_spinner];
+        }
     } else {
         [self.getButton setTitle:@"Get My Location" forState:UIControlStateNormal];
+        
+        [_spinner removeFromSuperview];
+        _spinner = nil;
     }
 }
 
@@ -285,6 +372,58 @@
     tabBarController.tabBar.translucent = (viewController != self);
     
     return YES;
+}
+
+#pragma mark - Logo View
+
+- (void)showLogoView
+{
+    if (_logoVisible) {
+        return;
+    }
+    
+    _logoVisible = YES;
+    self.containerView.hidden = YES;
+    
+    _logoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_logoButton setBackgroundImage:[UIImage imageNamed:@"Logo"] forState:UIControlStateNormal];
+    [_logoButton sizeToFit];
+    [_logoButton addTarget:self action:@selector(getLocation:) forControlEvents:UIControlEventTouchUpInside];
+    _logoButton.center = CGPointMake(self.view.bounds.size.width / 2.0f, self.view.bounds.size.height / 2.0f - 49.0f);
+    
+    [self.view addSubview:_logoButton];
+    
+}
+
+#pragma mark - Sound Effect
+- (void)loadSoundEffect
+{
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"Sound.caf" ofType:nil];
+    
+    NSURL *fileURL = [NSURL fileURLWithPath:path isDirectory:NO];
+    if (fileURL == nil) {
+        NSLog(@"NSURL is nil for path: %@", path);
+        return;
+    }
+    
+    OSStatus error = AudioServicesCreateSystemSoundID((__bridge CFURLRef)fileURL, &_soundID);
+    
+    if (error != kAudioServicesNoError) {
+        NSLog(@"Error code %ld loading sound at path: %@", error, path);
+        
+        return;
+    }
+}
+
+- (void)unloadSoundEffect
+{
+    AudioServicesDisposeSystemSoundID(_soundID);
+    _soundID = 0;
+}
+
+- (void)playSoundEffect
+{
+    AudioServicesPlaySystemSound(_soundID);
 }
 
 @end

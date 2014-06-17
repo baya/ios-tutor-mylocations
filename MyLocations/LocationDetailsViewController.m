@@ -174,6 +174,18 @@ UIActionSheetDelegate>
     
     gestureRecognizer.cancelsTouchesInView = NO;
     [self.tableView addGestureRecognizer:gestureRecognizer];
+    
+    self.tableView.backgroundColor = [UIColor blackColor];
+    self.tableView.separatorColor = [UIColor colorWithWhite:1.0f alpha:0.2f];
+    
+    self.descriptionTextView.textColor = [UIColor whiteColor];
+    self.descriptionTextView.backgroundColor = [UIColor blackColor];
+    
+    self.photoLabel.textColor = [UIColor whiteColor];
+    self.photoLabel.highlightedTextColor = self.photoLabel.textColor;
+    
+    self.addressLabel.textColor = [UIColor colorWithWhite:1.0f alpha:0.4f];
+    self.addressLabel.highlightedTextColor = self.addressLabel.textColor;
 }
 
 - (void)showImage:(UIImage *)image
@@ -265,67 +277,6 @@ UIActionSheetDelegate>
     self.categoryLabel.text = _categoryName;
 }
 
-#pragma mark - Table view data source
-
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-//{
-//    return 3;
-//}
-
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-//{
-//#warning Incomplete method implementation.
-//    // Return the number of rows in the section.
-//    return 0;
-//}
-
-/*
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
-    return cell;
-}
-*/
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -391,6 +342,7 @@ UIActionSheetDelegate>
     
     _imagePicker.delegate = self;
     _imagePicker.allowsEditing = YES;
+    _imagePicker.view.tintColor = self.view.tintColor;
     [self presentViewController:_imagePicker animated:YES completion:nil];
 }
 
@@ -401,6 +353,7 @@ UIActionSheetDelegate>
     _imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     _imagePicker.delegate = self;
     _imagePicker.allowsEditing = YES;
+    _imagePicker.view.tintColor = self.view.tintColor;
     [self presentViewController:_imagePicker animated:YES completion:nil];
 }
 
@@ -455,6 +408,28 @@ UIActionSheetDelegate>
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     _actionSheet = nil;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    cell.backgroundColor = [UIColor blackColor];
+    
+    cell.textLabel.textColor = [UIColor whiteColor];
+    cell.textLabel.highlightedTextColor = cell.textLabel.textColor;
+    
+    cell.detailTextLabel.textColor = [UIColor colorWithWhite:1.0f alpha:0.4f];
+    cell.detailTextLabel.highlightedTextColor = cell.detailTextLabel.textColor;
+    
+    UIView *selectionView = [[UIView alloc] initWithFrame:CGRectZero];
+    selectionView.backgroundColor = [UIColor colorWithWhite:1.0f alpha:0.2f];
+    cell.selectedBackgroundView = selectionView;
+    
+    if (indexPath.row == 2) {
+        UILabel *addressLabel = (UILabel *)[cell viewWithTag:100];
+        addressLabel.textColor = [UIColor whiteColor];
+        addressLabel.highlightedTextColor = addressLabel.textColor;
+    }
+    
 }
 
 
